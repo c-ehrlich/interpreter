@@ -3,3 +3,4 @@
 - [ ] support numbers formatted like `1_000_000`
 - [ ] support other number types (float, hex, octal)
 - [ ] support `<=` and `>=`
+- [ ] support more two char tokens, create `l.makeTwoCharToken` method
