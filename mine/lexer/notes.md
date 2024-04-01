@@ -13,3 +13,6 @@ Lexer goals
 - go through input, and output the next token
 - dont buffer or save tokens, just run `NextToken()` each time
 - We use `string` for the text, real lexer might use `io.Reader` and the filename
+
+Lexer non-goals
+- determing if the code makes sense (`let let let +-{}() 1 2 3 4 5`) is tokenised just fine)

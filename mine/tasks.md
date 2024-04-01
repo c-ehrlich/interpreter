@@ -1,3 +1,5 @@
-- support `fn foo(bar: string) { return "baz" }`
-- support utf-8 or unicode
-- allow numbers formatted like `1_000_000`
+- [ ] support `fn foo(bar: string) { return "baz" }`
+- [ ] support utf-8 or unicode
+- [ ] support numbers formatted like `1_000_000`
+- [ ] support other number types (float, hex, octal)
+- [ ] support `<=` and `>=`
