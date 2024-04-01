@@ -1,2 +1,3 @@
 - support `fn foo(bar: string) { return "baz" }`
 - support utf-8 or unicode
+- allow numbers formatted like `1_000_000`
