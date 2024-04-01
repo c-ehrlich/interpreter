@@ -1,0 +1,2 @@
+- support `fn foo(bar: string) { return "baz" }`
+- support utf-8 or unicode
