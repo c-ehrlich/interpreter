@@ -154,10 +154,12 @@ func TestNextTokenTwoCharTokens(t *testing.T) {
 	input := `10 == 10;
 9 != 10;`
 
+	// "slice of structs"
 	tests := []struct {
 		expectedType    token.TokenType
 		expectedLiteral string
 	}{
+		// if you use the same order as the struct, you dont need to specify the keys
 		{token.INT, "10"},
 		{token.EQ, "=="},
 		{token.INT, "10"},
