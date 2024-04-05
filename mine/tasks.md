@@ -4,3 +4,4 @@
 - [ ] support other number types (float, hex, octal)
 - [ ] support `<=` and `>=`
 - [ ] support more two char tokens, create `l.makeTwoCharToken` method
+- [ ] add a lot more parser tests (ref has many, try own)
