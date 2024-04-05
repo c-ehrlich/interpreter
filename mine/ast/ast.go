@@ -37,8 +37,8 @@ func (p *Program) TokenLiteral() string {
 // let statement: identifier, expression, token
 type LetStatement struct {
 	Token token.Token // the token.LET token
-	Name  *Identifier
-	Value Expression
+	Name  *Identifier // let _foo_ = bar;
+	Value Expression  // let foo = _getBar(5) + 10_;
 }
 
 func (ls *LetStatement) statementNode()       {}
@@ -52,10 +52,10 @@ type Identifier struct {
 func (i *Identifier) expressionNode()      {}
 func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
 
-/**
- * - LetStatement
- *   - Identifier ("foo")
- *     - ...this is an expression because it's easier for us?
- *     - eg `let x = y` where `y` is an expression... consistency
- *   - Expression (5, 10, add(a+b), etc)
- */
+type ReturnStatement struct {
+	Token       token.Token // the `return` token
+	ReturnValue Expression
+}
+
+func (rs *ReturnStatement) statementNode()       {}
+func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }
