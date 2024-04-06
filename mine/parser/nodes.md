@@ -48,3 +48,62 @@ let add = fn(a, b) {
 - parser repeatedly advances the tokens and checks the current token to decide what to do next
   - call a parsing function
   - throw an error
+
+# Parsing expressions
+
+- `5 * 5 + 10` => (5 * 5) + 10 => 5 * 5 needs to be "deeper" in the tree
+- parser needs to understand operator precedence, parens, etc
+- tokens can appear in different positions with different meanings... `-5 - 10`
+- parens have different meanings `5 * (add(2, 3) + 10)`
+  - outer: "group expression"
+  - inner: "call expression"
+- essentially: meaning and validity of a token depend on context / the tokens that come before and after
+
+- in monkey: everything except `let` and `return` is an expression
+  - variables `5`, `foo`
+  - prefix operators `!true`, `-5`
+  - infix operators (also called binary operators)
+    - arithmetic `5 + 5`
+    - comparison operators `foo >= bar`
+  - parens to group expressions and influence order of operation
+  - call expressions `add(add(1, 2), add(3, 4))`
+  - identifiers are expressions `foo`, `add(foo, bar)`
+  - function literals are expressions `(fn(x) { return x }(5) + 10 ) * 10`
+  - if statements are expressions `let result = if (foo > bar) { true } else { false }`
+  - CONCLUSION: going linear wont work here
+
+# Pratt Parsing (Operator Precedence)
+
+- nud and led
+  - lets the parser decide how to parse the "same" token depending on context
+  - NUD: Null denotation - a method associated with a token that does not require anything to its left / can stand on its own... eg `-` in `-4`
+    - for symbols, `nud()` usually returns the symbol itself, because they can stand alone
+    - DOES NOT CARE ABOUT ANYTHING TO ITS LEFT
+  - LED: Left denotation - a method associated with a token that comes after an expression ie `+` in `5 + 5`
+    - DOES CARE ABOUT THINGS TO ITS LEFT
+  - some operators have nud and led methods, eg `-`
+- std: statement denotation ... tokens that can start a statement - `let`, `return`, etc
+- lbp: left binding power ... determines precedence of tokens relative to each other ... `*` has higher lbp than `+`
+- `find`... look in the current scope, then travel up the scope hierarchy. finally look in the symbol table.
+  - new scopes need to know what exists in all previous scopes (usually through recursion) to know if an identifier is reserved or not
+
+- `d (operator A) e (operator B) f`... is this `(d A e) B f` or `d A (e B f)`?
+  - basically just this question over and over
+
+- binding powers in js
+  - 0: non binding operators like `;`
+  - 10: assignment operators like `=`
+  - 20: `?`
+  - 30: `|| &&`
+  - 40: relational operators like `===`
+  - 50: `+ -`
+  - 60: `* /`
+  - 70: unary operators like `!`
+  - 80: `. [ (`
+
+# Pratt parsing again, this time from the book
+- each token can have two parsing functions associated with it, depending on the token's position - infix or prefix
+- prefix operator... "in front of" its operand... `++foo`
+- postfix operator... "after" its operand... `foo++` - monkey doesn't have these
+- infix operator... sits between to operands... `foo + bar`
+- operator precedence... order of operations
