@@ -9,9 +9,9 @@ import (
 )
 
 type (
-	prefixParseFn func() ast.Expression
+	prefixParseFn func() ast.Expression // NUD
 	// argument is the left-hand side of the operator
-	infixParseFn func(ast.Expression) ast.Expression
+	infixParseFn func(ast.Expression) ast.Expression // LED
 )
 
 // values 0 through 7 (lower = earlier in order of operations)
@@ -84,6 +84,8 @@ func (p *Parser) nextToken() {
 	p.peekToken = p.l.NextToken()
 }
 
+// TODO: to make something right associative, we could
+// return `p - 1` here
 func (p *Parser) peekPrecedence() int {
 	if p, ok := precedences[p.peekToken.Type]; ok {
 		return p
@@ -177,6 +179,8 @@ func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 	return stmt
 }
 
+// `precedence` is the precedence of the token that precedes the expression
+// => RIGHT BINDING POWER
 func (p *Parser) parseExpression(precedence int) ast.Expression {
 	prefix := p.prefixParseFns[p.curToken.Type]
 	if prefix == nil {
@@ -185,6 +189,8 @@ func (p *Parser) parseExpression(precedence int) ast.Expression {
 	}
 	leftExp := prefix()
 
+	// keep going until we find a token of lower precedence
+	// `peekPrecedence` is the precedence of the next token => LEFT BINDING POWER
 	for !p.peekTokenIs(token.SEMICOLON) && precedence < p.peekPrecedence() {
 		infix := p.infixParseFns[p.peekToken.Type]
 		if infix == nil {
@@ -239,6 +245,7 @@ func (p *Parser) parseInfixExpression(left ast.Expression) ast.Expression {
 
 	precedence := p.curPrecedence()
 	p.nextToken()
+
 	expression.Right = p.parseExpression(precedence)
 
 	return expression

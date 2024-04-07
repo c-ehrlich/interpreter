@@ -107,3 +107,6 @@ let add = fn(a, b) {
 - postfix operator... "after" its operand... `foo++` - monkey doesn't have these
 - infix operator... sits between to operands... `foo + bar`
 - operator precedence... order of operations
+
+- in our parser, every token's LBP and RBP are the same. this isn't true for every parser.
+- if an operator should be right-associative (`(a + (b + c))`) it would need higher LBP than RBP
