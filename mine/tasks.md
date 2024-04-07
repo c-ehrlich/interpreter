@@ -1,5 +1,5 @@
 # Enhance the interpreter
-- [ ] support `fn foo(bar: string) { return "baz" }`
+- [ ] support `fn foo(bar) { return "baz" }`
 - [ ] support utf-8 or unicode
 - [ ] support numbers formatted like `1_000_000`
 - [ ] support other number types (float, hex, octal?)
@@ -12,6 +12,7 @@
 - [ ] support `++`, `--` - REQUIRES POSTFIX OPERATORS, WHICH MONKEY DOESN'T HAVE
 - [ ] think of an operator that should be `(a OP (b OP c))` and break out LBP/RBP
   - [ ] ++ and -- might require this also...
+- support `if (a && b)`, `if (a || b)`
 
 # Next steps
 - [ ] the book states that parsers are usually generated instead of written. how can we generate a a monkey parser?
