@@ -110,3 +110,4 @@ let add = fn(a, b) {
 
 - in our parser, every token's LBP and RBP are the same. this isn't true for every parser.
 - if an operator should be right-associative (`(a + (b + c))`) it would need higher LBP than RBP
+

@@ -110,9 +110,7 @@ func (p *Parser) ParseProgram() *ast.Program {
 	// iterate over every token until we encounter EOF
 	for p.curToken.Type != token.EOF {
 		stmt := p.parseStatement()
-		if stmt != nil {
-			program.Statements = append(program.Statements, stmt)
-		}
+		program.Statements = append(program.Statements, stmt)
 		p.nextToken()
 	}
 
@@ -167,6 +165,8 @@ func (p *Parser) parseReturnStatement() *ast.ReturnStatement {
 }
 
 func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
+	// defer untrace(trace("parsePrefixExpression" + " " + p.curToken.Literal))
+
 	stmt := &ast.ExpressionStatement{Token: p.curToken}
 
 	// we didn't parse anything yet, so we can't compare precedences
@@ -182,6 +182,7 @@ func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 // `precedence` is the precedence of the token that precedes the expression
 // => RIGHT BINDING POWER
 func (p *Parser) parseExpression(precedence int) ast.Expression {
+	// defer untrace(trace("parsePrefixExpression" + " " + p.curToken.Literal))
 	prefix := p.prefixParseFns[p.curToken.Type]
 	if prefix == nil {
 		p.noPrefixParseFnError(p.curToken.Type)
@@ -208,6 +209,8 @@ func (p *Parser) parseIdentifier() ast.Expression {
 }
 
 func (p *Parser) parseIntegerLiteral() ast.Expression {
+	// defer untrace(trace("parsePrefixExpression" + " " + p.curToken.Literal))
+
 	lit := &ast.IntegerLiteral{Token: p.curToken}
 
 	value, err := strconv.ParseInt(p.curToken.Literal, 0, 64)
@@ -223,6 +226,8 @@ func (p *Parser) parseIntegerLiteral() ast.Expression {
 }
 
 func (p *Parser) parsePrefixExpression() ast.Expression {
+	// defer untrace(trace("parsePrefixExpression" + " " + p.curToken.Literal))
+
 	expression := &ast.PrefixExpression{
 		Token:    p.curToken,
 		Operator: p.curToken.Literal,
@@ -237,6 +242,8 @@ func (p *Parser) parsePrefixExpression() ast.Expression {
 }
 
 func (p *Parser) parseInfixExpression(left ast.Expression) ast.Expression {
+	// defer untrace(trace("parsePrefixExpression" + " " + p.curToken.Literal))
+
 	expression := &ast.InfixExpression{
 		Token:    p.curToken,
 		Operator: p.curToken.Literal,
