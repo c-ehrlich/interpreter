@@ -47,8 +47,12 @@ type Parser struct {
 	curToken  token.Token
 	peekToken token.Token
 
+	// !foo
+	// -10
+	// in monkey, also `if`, `(`, `fn`
 	prefixParseFns map[token.TokenType]prefixParseFn
-	infixParseFns  map[token.TokenType]infixParseFn
+	// foo + bar
+	infixParseFns map[token.TokenType]infixParseFn
 }
 
 func New(l *lexer.Lexer) *Parser {
@@ -79,6 +83,8 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerInfix(token.GT, p.parseInfixExpression)
 	p.registerInfix(token.LPAREN, p.parseCallExpression) // this is how we parse function calls
 
+	// postfix would be eg `i++`
+
 	// Read two tokens so curToken and peekToken are both set
 	p.nextToken()
 	p.nextToken()
@@ -86,6 +92,7 @@ func New(l *lexer.Lexer) *Parser {
 	return p
 }
 
+// also called in other (non specific) places, for example `expectPeek`
 func (p *Parser) nextToken() {
 	p.curToken = p.peekToken
 	p.peekToken = p.l.NextToken()
@@ -124,6 +131,9 @@ func (p *Parser) ParseProgram() *ast.Program {
 	return program
 }
 
+// let <identifier> = <expression>;
+// let x = 5
+// ^ cursor is here when we enter parseStatement
 func (p *Parser) parseStatement() ast.Statement {
 	switch p.curToken.Type {
 	case token.LET:
@@ -138,9 +148,16 @@ func (p *Parser) parseStatement() ast.Statement {
 func (p *Parser) parseLetStatement() *ast.LetStatement {
 	stmt := &ast.LetStatement{Token: p.curToken}
 
+	// the grammar is `let <identifier> = <expression>;`
+
+	// let x = 5;
+	// ^
 	if !p.expectPeek(token.IDENT) {
 		return nil
 	}
+
+	// let x = 5;
+	//     ^
 
 	stmt.Name = &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
 
@@ -148,10 +165,19 @@ func (p *Parser) parseLetStatement() *ast.LetStatement {
 		return nil
 	}
 
+	// let x = 5;
+	//       ^
+
+	// progress past the `=`
 	p.nextToken()
+
+	// let x = 5;
+	//         ^
 
 	stmt.Value = p.parseExpression(LOWEST)
 
+	// let x = 5;
+	//          ^
 	for !p.curTokenIs(token.SEMICOLON) {
 		p.nextToken()
 	}
