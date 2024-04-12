@@ -12,7 +12,8 @@
 - [ ] support `++`, `--` - REQUIRES POSTFIX OPERATORS, WHICH MONKEY DOESN'T HAVE
 - [ ] think of an operator that should be `(a OP (b OP c))` and break out LBP/RBP
   - [ ] ++ and -- might require this also...
-- support `if (a && b)`, `if (a || b)`
+- [ ] support `if (a && b)`, `if (a || b)`
+- [ ] make `!0` evaluate to true instead of false
 
 # Next steps
 - [ ] the book states that parsers are usually generated instead of written. how can we generate a a monkey parser?

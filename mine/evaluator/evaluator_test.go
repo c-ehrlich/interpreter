@@ -74,3 +74,29 @@ func testBooleanObject(t *testing.T, obj object.Object, expected bool) bool {
 
 	return true
 }
+
+// in the parse we treat a lot of language constructs like prefix expressions
+// but here prefix expressions are just operator expressions
+// with one operator and one operand
+// for now: ! and -
+
+// the operator should "convert" its operand to a boolean and negate it
+func TestBangOperator(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected bool
+	}{
+		{"!true", false},
+		{"!false", true},
+		{"!5", false},
+		{"!!true", true},
+		{"!!false", false},
+		{"!!5", true},
+		// {"!0", true}, // TODO: maybe?
+	}
+
+	for _, tt := range tests {
+		evaluated := testEval(tt.input)
+		testBooleanObject(t, evaluated, tt.expected)
+	}
+}
