@@ -14,6 +14,9 @@
   - [ ] ++ and -- might require this also...
 - [ ] support `if (a && b)`, `if (a || b)`
 - [ ] make `!0` evaluate to true instead of false
+- [ ] do some dynamic type stuff (like js?)
+  - [ ] maybe just type conversion operators?
 
 # Next steps
 - [ ] the book states that parsers are usually generated instead of written. how can we generate a a monkey parser?
+- [ ] add stack traces to the error object
