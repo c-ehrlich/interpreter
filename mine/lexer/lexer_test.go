@@ -121,6 +121,7 @@ func TestNextTokenMoreTokens(t *testing.T) {
 		{token.GT, ">"},
 		{token.INT, "5"},
 		{token.SEMICOLON, ";"},
+		{token.EOF, ""},
 	}
 
 	testTokens(t, input, tests)
@@ -141,6 +142,19 @@ func TestNextTokenTwoCharTokens(t *testing.T) {
 		{token.NOT_EQ, "!="},
 		{token.INT, "10"},
 		{token.SEMICOLON, ";"},
+	}
+
+	testTokens(t, input, tests)
+}
+
+func TestNextTokenStrings(t *testing.T) {
+	input := `"foobar"
+"foo bar"`
+
+	tests := []TokenTest{
+		{token.STRING, "foobar"},
+		{token.STRING, "foo bar"},
+		{token.EOF, ""},
 	}
 
 	testTokens(t, input, tests)
