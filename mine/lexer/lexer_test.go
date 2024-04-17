@@ -159,3 +159,19 @@ func TestNextTokenStrings(t *testing.T) {
 
 	testTokens(t, input, tests)
 }
+
+func TestNextTokenArrayBrackets(t *testing.T) {
+	input := `[1, 2];`
+
+	tests := []TokenTest{
+		{token.LBRACKET, "["},
+		{token.INT, "1"},
+		{token.COMMA, ","},
+		{token.INT, "2"},
+		{token.RBRACKET, "]"},
+		{token.SEMICOLON, ";"},
+		{token.EOF, ""},
+	}
+
+	testTokens(t, input, tests)
+}
