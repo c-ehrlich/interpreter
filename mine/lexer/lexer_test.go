@@ -6,24 +6,16 @@ import (
 	"monkey/token"
 )
 
-func TestNextTokenSingleChars(t *testing.T) {
-	input := `=+(){},;`
+type TokenTest struct {
+	expectedType    token.TokenType
+	expectedLiteral string
+}
 
-	tests := []struct {
-		expectedType    token.TokenType
-		expectedLiteral string
-	}{
-		{token.ASSIGN, "="},
-		{token.PLUS, "+"},
-		{token.LPAREN, "("},
-		{token.RPAREN, ")"},
-		{token.LBRACE, "{"},
-		{token.RBRACE, "}"},
-		{token.COMMA, ","},
-		{token.SEMICOLON, ";"},
-		{token.EOF, ""},
-	}
-
+func testTokens(
+	t *testing.T,
+	input string,
+	tests []TokenTest,
+) {
 	l := New(input)
 
 	for i, tt := range tests {
@@ -41,6 +33,24 @@ func TestNextTokenSingleChars(t *testing.T) {
 	}
 }
 
+func TestNextTokenSingleChars(t *testing.T) {
+	input := `=+(){},;`
+
+	tests := []TokenTest{
+		{token.ASSIGN, "="},
+		{token.PLUS, "+"},
+		{token.LPAREN, "("},
+		{token.RPAREN, ")"},
+		{token.LBRACE, "{"},
+		{token.RBRACE, "}"},
+		{token.COMMA, ","},
+		{token.SEMICOLON, ";"},
+		{token.EOF, ""},
+	}
+
+	testTokens(t, input, tests)
+}
+
 func TestNextTokenComplex(t *testing.T) {
 	input := `let five = 5;
 let ten = 10;
@@ -51,10 +61,7 @@ let add = fn(x, y) {
 
 let result = add(five, ten);
 `
-	tests := []struct {
-		expectedType    token.TokenType
-		expectedLiteral string
-	}{
+	tests := []TokenTest{
 		{token.LET, "let"},
 		{token.IDENT, "five"},
 		{token.ASSIGN, "="},
@@ -94,31 +101,14 @@ let result = add(five, ten);
 		{token.EOF, ""},
 	}
 
-	l := New(input)
-
-	for i, tt := range tests {
-		tok := l.NextToken()
-
-		if tok.Type != tt.expectedType {
-			t.Fatalf("tests[%d] - tokentype wrong. expected=%q, got=%q",
-				i, tt.expectedType, tok.Type)
-		}
-
-		if tok.Literal != tt.expectedLiteral {
-			t.Fatalf("tests[%d] - literal wrong. expected=%q, got=%q",
-				i, tt.expectedLiteral, tok.Literal)
-		}
-	}
+	testTokens(t, input, tests)
 }
 
 func TestNextTokenMoreTokens(t *testing.T) {
 	input := `!-/*5;
 5 < 10 > 5;`
 
-	tests := []struct {
-		expectedType    token.TokenType
-		expectedLiteral string
-	}{
+	tests := []TokenTest{
 		{token.BANG, "!"},
 		{token.MINUS, "-"},
 		{token.SLASH, "/"},
@@ -133,21 +123,7 @@ func TestNextTokenMoreTokens(t *testing.T) {
 		{token.SEMICOLON, ";"},
 	}
 
-	l := New(input)
-
-	for i, tt := range tests {
-		tok := l.NextToken()
-
-		if tok.Type != tt.expectedType {
-			t.Fatalf("tests[%d] - tokentype wrong. expected=%q, got=%q",
-				i, tt.expectedType, tok.Type)
-		}
-
-		if tok.Literal != tt.expectedLiteral {
-			t.Fatalf("tests[%d] - literal wrong. expected=%q, got=%q",
-				i, tt.expectedLiteral, tok.Literal)
-		}
-	}
+	testTokens(t, input, tests)
 }
 
 func TestNextTokenTwoCharTokens(t *testing.T) {
@@ -155,10 +131,7 @@ func TestNextTokenTwoCharTokens(t *testing.T) {
 9 != 10;`
 
 	// "slice of structs"
-	tests := []struct {
-		expectedType    token.TokenType
-		expectedLiteral string
-	}{
+	tests := []TokenTest{
 		// if you use the same order as the struct, you dont need to specify the keys
 		{token.INT, "10"},
 		{token.EQ, "=="},
@@ -170,19 +143,5 @@ func TestNextTokenTwoCharTokens(t *testing.T) {
 		{token.SEMICOLON, ";"},
 	}
 
-	l := New(input)
-
-	for i, tt := range tests {
-		tok := l.NextToken()
-
-		if tok.Type != tt.expectedType {
-			t.Fatalf("tests[%d] - tokentype wrong. expected=%q, got=%q",
-				i, tt.expectedType, tok.Type)
-		}
-
-		if tok.Literal != tt.expectedLiteral {
-			t.Fatalf("tests[%d] - literal wrong. expected=%q, got=%q",
-				i, tt.expectedLiteral, tok.Literal)
-		}
-	}
+	testTokens(t, input, tests)
 }
