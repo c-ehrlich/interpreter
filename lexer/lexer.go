@@ -1,6 +1,9 @@
 package lexer
 
-import "monkey/token"
+import (
+	"monkey/token"
+	"strings"
+)
 
 type Lexer struct {
 	// the entire input to be tokenized
@@ -124,10 +127,12 @@ func (l *Lexer) readIdentifier() string {
 
 func (l *Lexer) readNumber() string {
 	position := l.position
-	for isDigit(l.ch) {
+	for isIntComponent(l.ch) {
 		l.readChar()
 	}
-	return l.input[position:l.position]
+	numString := l.input[position:l.position]
+	withoutUnderscores := strings.ReplaceAll(numString, "_", "")
+	return withoutUnderscores
 }
 
 func (l *Lexer) skipWhitespace() {
@@ -166,4 +171,8 @@ func isLetter(ch byte) bool {
 
 func isDigit(ch byte) bool {
 	return '0' <= ch && ch <= '9'
+}
+
+func isIntComponent(ch byte) bool {
+	return isDigit(ch) || ch == '_'
 }

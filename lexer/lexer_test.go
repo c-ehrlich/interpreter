@@ -160,6 +160,18 @@ func TestNextTokenStrings(t *testing.T) {
 	testTokens(t, input, tests)
 }
 
+func TestNextTokenNumbers(t *testing.T) {
+	input := `1 123 1_000_000`
+
+	tests := []TokenTest{
+		{token.INT, "1"},
+		{token.INT, "123"},
+		{token.INT, "1000000"},
+	}
+
+	testTokens(t, input, tests)
+}
+
 func TestNextTokenArrayBrackets(t *testing.T) {
 	input := `[1, 2];`
 
