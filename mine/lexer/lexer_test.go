@@ -175,3 +175,18 @@ func TestNextTokenArrayBrackets(t *testing.T) {
 
 	testTokens(t, input, tests)
 }
+
+func TestNextTokenColon(t *testing.T) {
+	input := `{"foo": "bar"}`
+
+	tests := []TokenTest{
+		{token.LBRACE, "{"},
+		{token.STRING, "foo"},
+		{token.COLON, ":"},
+		{token.STRING, "bar"},
+		{token.RBRACE, "}"},
+		{token.EOF, ""},
+	}
+
+	testTokens(t, input, tests)
+}

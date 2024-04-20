@@ -22,6 +22,7 @@
 - [ ] support `==` and `!=` for strings
 - [ ] add more builtin functions
 - [ ] dont allow assigning to the name of builtin functions
+- [ ] add map, reduce, foreach... `map(arr, fn)` style
 
 # Next steps
 - [ ] the book states that parsers are usually generated instead of written. how can we generate a a monkey parser?
