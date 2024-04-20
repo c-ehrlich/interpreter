@@ -1,4 +1,5 @@
 # Enhance the interpreter
+- [ ] really understand how arrays work
 - [ ] support `fn foo(bar) { return "baz" }`
 - [ ] support utf-8 or unicode
 - [ ] support numbers formatted like `1_000_000`
