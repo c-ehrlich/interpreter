@@ -55,6 +55,13 @@ let bar = --foo; // 1
 1 <= 2; // false
 ```
 
+### String comparison
+```js
+"apples" == "apples"; // true
+"apples" == "oranges"; // false
+"apples" != "apples"; // false
+"apples" != "oranges"; // true
+
 ### Comments
 ```js
 let a = 5; // foo
