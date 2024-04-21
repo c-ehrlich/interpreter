@@ -1,17 +1,23 @@
 # Enhance the interpreter
 - [x] in addition to the repl, evaluate an entire file (`go run main.go foo.txt`)
-- [ ] `void` type, especially for some builtin functions
+- [x] support numbers formatted like `1_000_000`
+- [x] support floats
+  - [x] look for `.`, if there's a second one throw
+  - [x] negative
+  - [x] negative test
+  - [x] arithmetic
+  - [x] arithmetic tests
+  - [x] boolean logic
+  - [x] boolean logic tests
+- [x] support strings
+- [x] support comments `// foo`, `let a = 1; // foo`
+- [ ] `void` type, especially for some builtin functions?
 - [ ] really understand how arrays work
 - [ ] support `fn foo(bar) { return "baz" }`
 - [ ] support utf-8 or unicode
-- [x] support numbers formatted like `1_000_000`
-- [ ] support floats
-  - [ ] look for `.`, if there's a second one throw
 - [ ] tofloat(int), toint(float..truncates), round(float), ceil(float), floor(float)
 - [ ] support `<=` and `>=` (for numbers)
 - [ ] support numbers formatted like `10e3` (just parse to int)
-- [x] support strings
-- [x] support comments `// foo`, `let a = 1; // foo`
 - [ ] support more two char tokens, create `l.makeTwoCharToken` method
 - [ ] add a lot more parser tests (ref has many, try own)
 - [ ] support ternary like js

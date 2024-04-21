@@ -110,7 +110,6 @@ func (l *Lexer) NextToken() token.Token {
 			tok.Type = token.LookupIdent((tok.Literal))
 			return tok
 		} else if isDigitOrDecimalPoint(l.ch) {
-			// TODO:
 			tok = l.readNumber()
 			return tok
 		} else {
@@ -145,7 +144,6 @@ func (l *Lexer) readNumber() token.Token {
 	}
 	numString := l.input[position:l.position]
 	withoutUnderscores := strings.ReplaceAll(numString, "_", "")
-	println("readNumber", withoutUnderscores, isFloat)
 	if multipleDecimals {
 		return token.Token{Type: token.ILLEGAL, Literal: withoutUnderscores}
 	}

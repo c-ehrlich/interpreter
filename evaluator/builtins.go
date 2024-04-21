@@ -2,10 +2,28 @@ package evaluator
 
 import (
 	"fmt"
+	"math"
 	"monkey/object"
 )
 
 var builtins = map[string]*object.Builtin{
+	"ceil": {
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 1 {
+				return newError("wrong number of arguments. got=%d, want=1",
+					len(args))
+			}
+			if args[0].Type() != object.FLOAT_OBJ {
+				return newError("argument to `floor` must be ARRAY, got %s",
+					args[0].Type())
+			}
+
+			f := args[0].(*object.Float)
+			ceil := math.Ceil(f.Value)
+
+			return &object.Float{Value: ceil}
+		},
+	},
 	"first": {
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 {
@@ -23,6 +41,23 @@ var builtins = map[string]*object.Builtin{
 			}
 
 			return NULL
+		},
+	},
+	"floor": {
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 1 {
+				return newError("wrong number of arguments. got=%d, want=1",
+					len(args))
+			}
+			if args[0].Type() != object.FLOAT_OBJ {
+				return newError("argument to `floor` must be ARRAY, got %s",
+					args[0].Type())
+			}
+
+			f := args[0].(*object.Float)
+			floor := math.Floor(f.Value)
+
+			return &object.Float{Value: floor}
 		},
 	},
 	"last": {
@@ -116,6 +151,47 @@ var builtins = map[string]*object.Builtin{
 			}
 
 			return NULL
+		},
+	},
+	"round": {
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 1 {
+				return newError("wrong number of arguments. got=%d, want=1",
+					len(args))
+			}
+			if args[0].Type() != object.FLOAT_OBJ {
+				return newError("argument to `floor` must be ARRAY, got %s",
+					args[0].Type())
+			}
+
+			f := args[0].(*object.Float)
+			round := math.Round(f.Value)
+
+			return &object.Float{Value: round}
+		},
+	},
+	// floor, then cast to int
+	"toint": {
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 1 {
+				return newError("wrong number of arguments. got=%d, want=1",
+					len(args))
+			}
+
+			// if args[0].Type() != object.FLOAT_OBJ {
+			// 	return newError("argument to `toint` must be FLOAT, got %s",
+			// 		args[0].Type())
+			// }
+
+			float, ok := args[0].(*object.Float)
+			if !ok {
+				return newError("argument to `toint` must be a FLOAT, got %s",
+					args[0].Type())
+			}
+
+			int := int64(float.Value)
+
+			return &object.Integer{Value: int}
 		},
 	},
 }
