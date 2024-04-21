@@ -36,7 +36,6 @@ func (l *Lexer) readChar() {
 }
 
 func (l *Lexer) NextToken() token.Token {
-	println("NextToken", l.ch)
 	var tok token.Token
 
 	l.skipWhitespace()
@@ -110,9 +109,9 @@ func (l *Lexer) NextToken() token.Token {
 			tok.Literal = l.readIdentifier()
 			tok.Type = token.LookupIdent((tok.Literal))
 			return tok
-		} else if isDigit(l.ch) {
-			tok.Type = token.INT
-			tok.Literal = l.readNumber()
+		} else if isDigitOrDecimalPoint(l.ch) {
+			// TODO:
+			tok = l.readNumber()
 			return tok
 		} else {
 			tok = newToken(token.ILLEGAL, l.ch)
@@ -131,14 +130,29 @@ func (l *Lexer) readIdentifier() string {
 	return l.input[position:l.position] // range of characters that form the identifier [position, l.position]
 }
 
-func (l *Lexer) readNumber() string {
+func (l *Lexer) readNumber() token.Token {
+	isFloat := false
+	multipleDecimals := false
 	position := l.position
-	for isIntComponent(l.ch) {
+	for isNumberComponent(l.ch) {
+		if l.ch == '.' {
+			if isFloat {
+				multipleDecimals = true
+			}
+			isFloat = true
+		}
 		l.readChar()
 	}
 	numString := l.input[position:l.position]
 	withoutUnderscores := strings.ReplaceAll(numString, "_", "")
-	return withoutUnderscores
+	println("readNumber", withoutUnderscores, isFloat)
+	if multipleDecimals {
+		return token.Token{Type: token.ILLEGAL, Literal: withoutUnderscores}
+	}
+	if isFloat {
+		return token.Token{Type: token.FLOAT, Literal: withoutUnderscores}
+	}
+	return token.Token{Type: token.INT, Literal: withoutUnderscores}
 }
 
 func (l *Lexer) skipWhitespace() {
@@ -182,10 +196,10 @@ func isLetter(ch byte) bool {
 	return 'a' <= ch && ch < 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
 }
 
-func isDigit(ch byte) bool {
-	return '0' <= ch && ch <= '9'
+func isDigitOrDecimalPoint(ch byte) bool {
+	return ('0' <= ch && ch <= '9') || ch == '.'
 }
 
-func isIntComponent(ch byte) bool {
-	return isDigit(ch) || ch == '_'
+func isNumberComponent(ch byte) bool {
+	return isDigitOrDecimalPoint(ch) || ch == '_' || ch == '.'
 }

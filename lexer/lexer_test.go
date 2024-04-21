@@ -220,3 +220,26 @@ func TestSingleLineComment(t *testing.T) {
 
 	testTokens(t, input, tests)
 }
+
+func TestFloat(t *testing.T) {
+	input := `123.456;
+.5;
+1.;
+1_2_3.4_5_6;
+123.456.789;`
+
+	tests := []TokenTest{
+		{token.FLOAT, "123.456"},
+		{token.SEMICOLON, ";"},
+		{token.FLOAT, ".5"},
+		{token.SEMICOLON, ";"},
+		{token.FLOAT, "1."},
+		{token.SEMICOLON, ";"},
+		{token.FLOAT, "123.456"},
+		{token.SEMICOLON, ";"},
+		{token.ILLEGAL, "123.456.789"},
+		{token.SEMICOLON, ";"},
+	}
+
+	testTokens(t, input, tests)
+}
