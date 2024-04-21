@@ -5,6 +5,7 @@
 1. Install gow `go install github.com/mitranim/gow@latest`
 2. Run tests in watch mode `gow test ./...`
 3. To start the repl: `go run main.go`
+4. To pass a file: `go run main.go program.monkey`
 
 ## Additional Features
 
