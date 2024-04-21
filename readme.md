@@ -17,3 +17,10 @@ go run main.go program.monkey
 ```
 let foo = 1_000_000; 
 ```
+
+### Comments
+```
+let a = 5; // foo
+// bar
+let b = 10;
+```

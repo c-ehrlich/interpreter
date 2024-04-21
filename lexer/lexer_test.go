@@ -202,3 +202,21 @@ func TestNextTokenColon(t *testing.T) {
 
 	testTokens(t, input, tests)
 }
+
+func TestSingleLineComment(t *testing.T) {
+	input := `5; // foo
+4;
+// bar
+3;`
+
+	tests := []TokenTest{
+		{token.INT, "5"},
+		{token.SEMICOLON, ";"},
+		{token.INT, "4"},
+		{token.SEMICOLON, ";"},
+		{token.INT, "3"},
+		{token.SEMICOLON, ";"},
+	}
+
+	testTokens(t, input, tests)
+}

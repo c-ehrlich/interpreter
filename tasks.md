@@ -11,9 +11,7 @@
 - [ ] support `<=` and `>=` (for numbers)
 - [ ] support numbers formatted like `10e3` (just parse to int)
 - [x] support strings
-- [ ] support comments
-  - [ ] `// foo`
-  - [ ] `/* foo */`
+- [x] support comments `// foo`, `let a = 1; // foo`
 - [ ] support more two char tokens, create `l.makeTwoCharToken` method
 - [ ] add a lot more parser tests (ref has many, try own)
 - [ ] support ternary like js
