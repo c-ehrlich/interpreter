@@ -44,37 +44,25 @@ func (l *Lexer) NextToken() token.Token {
 	// operators
 	case '=':
 		if l.peekChar() == '=' {
-			ch := l.ch
-			l.readChar()
-			literal := string(ch) + string(l.ch)
-			tok = token.Token{Type: token.EQ, Literal: literal}
+			tok = readTwoCharacterToken(l, token.EQ)
 		} else {
 			tok = newToken(token.ASSIGN, l.ch)
 		}
 	case '+':
 		if l.peekChar() == '+' {
-			ch := l.ch
-			l.readChar()
-			literal := string(ch) + string(l.ch)
-			tok = token.Token{Type: token.INCREMENT, Literal: literal}
+			tok = readTwoCharacterToken(l, token.INCREMENT)
 		} else {
 			tok = newToken(token.PLUS, l.ch)
 		}
 	case '-':
 		if l.peekChar() == '-' {
-			ch := l.ch
-			l.readChar()
-			literal := string(ch) + string(l.ch)
-			tok = token.Token{Type: token.DECREMENT, Literal: literal}
+			tok = readTwoCharacterToken(l, token.DECREMENT)
 		} else {
 			tok = newToken(token.MINUS, l.ch)
 		}
 	case '!':
 		if l.peekChar() == '=' {
-			ch := l.ch
-			l.readChar()
-			literal := string(ch) + string(l.ch)
-			tok = token.Token{Type: token.NOT_EQ, Literal: literal}
+			tok = readTwoCharacterToken(l, token.NOT_EQ)
 		} else {
 			tok = newToken(token.BANG, l.ch)
 		}
@@ -89,19 +77,13 @@ func (l *Lexer) NextToken() token.Token {
 		}
 	case '<':
 		if l.peekChar() == '=' {
-			ch := l.ch
-			l.readChar()
-			literal := string(ch) + string(l.ch)
-			tok = token.Token{Type: token.LTE, Literal: literal}
+			tok = readTwoCharacterToken(l, token.LTE)
 		} else {
 			tok = newToken(token.LT, l.ch)
 		}
 	case '>':
 		if l.peekChar() == '=' {
-			ch := l.ch
-			l.readChar()
-			literal := string(ch) + string(l.ch)
-			tok = token.Token{Type: token.GTE, Literal: literal}
+			tok = readTwoCharacterToken(l, token.GTE)
 		} else {
 			tok = newToken(token.GT, l.ch)
 		}
@@ -228,4 +210,11 @@ func isDigitOrDecimalPoint(ch byte) bool {
 
 func isNumberComponent(ch byte) bool {
 	return isDigitOrDecimalPoint(ch) || ch == '_' || ch == '.'
+}
+
+func readTwoCharacterToken(l *Lexer, tokenType token.TokenType) token.Token {
+	ch := l.ch
+	l.readChar()
+	literal := string(ch) + string(l.ch)
+	return token.Token{Type: tokenType, Literal: literal}
 }

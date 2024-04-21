@@ -17,6 +17,7 @@
 - [x] `ceil` function
 - [x] `floor` function
 - [x] `round` function
+- [x] extract `readTwoCharacterToken`
 - [ ] support `<=` and `>=` (ints)
 - [ ] support `==` and `!=` for strings
 - [ ] support `if (a && b)`, `if (a || b)`
@@ -30,7 +31,6 @@
 - [ ] `void` type, especially for some builtin functions?
 - [ ] alternative function syntax `fn foo(bar) { return "baz" }`
 - [ ] support utf-8 or unicode
-- [ ] support more two char tokens, create `l.makeTwoCharToken` method to reduce boilerplate
 - [ ] support ternary like js `let foo = bar ? "baz" : "biz"`
 - [ ] support `++`, `--` after number - REQUIRES POSTFIX OPERATORS
 - [ ] think of an operator that should be `(a OP (b OP c))` and break out LBP/RBP
