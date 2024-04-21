@@ -675,6 +675,21 @@ func TestEvalFloatToIntFunctions(t *testing.T) {
 	}
 }
 
+func TestEvalIntToFloatFunctions(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected float64
+	}{
+		{"tofloat(1)", 1.0},
+		{"tofloat(-5)", -5.0},
+	}
+
+	for _, tt := range tests {
+		evaluated := testEval(tt.input)
+		testFloatObject(t, evaluated, tt.expected)
+	}
+}
+
 func TestEvalIncrementDecrementExpression(t *testing.T) {
 	tests := []struct {
 		input    string

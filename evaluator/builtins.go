@@ -170,6 +170,24 @@ var builtins = map[string]*object.Builtin{
 			return &object.Float{Value: round}
 		},
 	},
+	"tofloat": {
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 1 {
+				return newError("wrong number of arguments. got=%d, want=1",
+					len(args))
+			}
+
+			int, ok := args[0].(*object.Integer)
+			if !ok {
+				return newError("argument to `tofloat` must be a INTEGER, got %s",
+					args[0].Type())
+			}
+
+			float := float64(int.Value)
+
+			return &object.Float{Value: float}
+		},
+	},
 	// floor, then cast to int
 	"toint": {
 		Fn: func(args ...object.Object) object.Object {
@@ -177,11 +195,6 @@ var builtins = map[string]*object.Builtin{
 				return newError("wrong number of arguments. got=%d, want=1",
 					len(args))
 			}
-
-			// if args[0].Type() != object.FLOAT_OBJ {
-			// 	return newError("argument to `toint` must be FLOAT, got %s",
-			// 		args[0].Type())
-			// }
 
 			float, ok := args[0].(*object.Float)
 			if !ok {

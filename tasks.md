@@ -12,29 +12,31 @@
 - [x] support strings
 - [x] support comments `// foo`, `let a = 1; // foo`
 - [x] support `++`, `--` before number
-- [ ] support `<=` and `>=` (ints and strings)
+- [x] `toint` function
+- [x] `tofloat` function
+- [x] `ceil` function
+- [x] `floor` function
+- [x] `round` function
+- [ ] support `<=` and `>=` (ints)
+- [ ] support `==` and `!=` for strings
+- [ ] support `if (a && b)`, `if (a || b)`
+- [ ] `else if`
+- [ ] support block comments `/**\n * foo\n */`
+- [ ] loops!
+- [ ] support `10e3` notation (just parse to int)
+- [ ] add map, reduce, foreach... php style `map(arr, fn)`
+- [ ] make `bool(0)` evaluate to false
+- [ ] make `!0` evaluate to true instead of false
 - [ ] `void` type, especially for some builtin functions?
-- [ ] really understand how arrays work
-- [ ] support `fn foo(bar) { return "baz" }`
+- [ ] alternative function syntax `fn foo(bar) { return "baz" }`
 - [ ] support utf-8 or unicode
-- [ ] tofloat(int), toint(float..truncates), round(float), ceil(float), floor(float)
-- [ ] support numbers formatted like `10e3` (just parse to int)
-- [ ] support more two char tokens, create `l.makeTwoCharToken` method
-- [ ] add a lot more parser tests (ref has many, try own)
-- [ ] support ternary like js
-- [ ] support `++`, `--` after number - REQUIRES POSTFIX OPERATORS, WHICH MONKEY DOESN'T HAVE
+- [ ] support more two char tokens, create `l.makeTwoCharToken` method to reduce boilerplate
+- [ ] support ternary like js `let foo = bar ? "baz" : "biz"`
+- [ ] support `++`, `--` after number - REQUIRES POSTFIX OPERATORS
 - [ ] think of an operator that should be `(a OP (b OP c))` and break out LBP/RBP
   - [ ] ++ and -- might require this also...
-- [ ] support `if (a && b)`, `if (a || b)`
-- [ ] make `!0` evaluate to true instead of false
-- [ ] do some dynamic type stuff (like js?)
-  - [ ] maybe just type conversion operators?
-- [ ] loops
-- [ ] `else if`
-- [ ] support `==` and `!=` for strings
-- [ ] add more builtin functions
+- [ ] `bool(anything)`
 - [ ] dont allow assigning to the name of builtin functions
-- [ ] add map, reduce, foreach... `map(arr, fn)` style
 
 # Next steps
 - [ ] the book states that parsers are usually generated instead of written. how can we generate a a monkey parser?
