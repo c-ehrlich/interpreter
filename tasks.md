@@ -16,7 +16,7 @@
 - [ ] support `fn foo(bar) { return "baz" }`
 - [ ] support utf-8 or unicode
 - [ ] tofloat(int), toint(float..truncates), round(float), ceil(float), floor(float)
-- [ ] support `<=` and `>=` (for numbers)
+- [ ] support `<=` and `>=` (ints and strings)
 - [ ] support numbers formatted like `10e3` (just parse to int)
 - [ ] support more two char tokens, create `l.makeTwoCharToken` method
 - [ ] add a lot more parser tests (ref has many, try own)

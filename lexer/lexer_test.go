@@ -22,13 +22,13 @@ func testTokens(
 		tok := l.NextToken()
 
 		if tok.Type != tt.expectedType {
-			t.Fatalf("tests[%d] - tokentype wrong. expected=%q, got=%q",
-				i, tt.expectedType, tok.Type)
+			t.Fatalf("tests[%d] - tokentype wrong. expected=%q, got=%q, %q",
+				i, tt.expectedType, tok.Type, tok.Literal)
 		}
 
 		if tok.Literal != tt.expectedLiteral {
-			t.Fatalf("tests[%d] - literal wrong. expected=%q, got=%q",
-				i, tt.expectedLiteral, tok.Literal)
+			t.Fatalf("tests[%d] - literal wrong. expected=%q, got=%q, %q",
+				i, tt.expectedLiteral, tok.Literal, tok.Type)
 		}
 	}
 }
@@ -238,6 +238,24 @@ func TestFloat(t *testing.T) {
 		{token.FLOAT, "123.456"},
 		{token.SEMICOLON, ";"},
 		{token.ILLEGAL, "123.456.789"},
+		{token.SEMICOLON, ";"},
+	}
+
+	testTokens(t, input, tests)
+}
+
+func TestIncrementDecrement(t *testing.T) {
+	input := `foo = ++bar;
+--baz;`
+
+	tests := []TokenTest{
+		{token.IDENT, "foo"},
+		{token.ASSIGN, "="},
+		{token.INCREMENT, "++"},
+		{token.IDENT, "bar"},
+		{token.SEMICOLON, ";"},
+		{token.DECREMENT, "--"},
+		{token.IDENT, "baz"},
 		{token.SEMICOLON, ";"},
 	}
 
