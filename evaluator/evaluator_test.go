@@ -143,6 +143,10 @@ func TestEvalBooleanExpression(t *testing.T) {
 		{"1.1 <= 1.1", true},
 		{"1.1 <= 1.2", true},
 		{"toint(1.1) == toint(1.2)", true},
+		{`"apple" == "apple"`, true},
+		{`"apple" == "orange"`, false},
+		{`"apple" != "apple"`, false},
+		{`"apple" != "orange"`, true},
 	}
 
 	for _, tt := range tests {

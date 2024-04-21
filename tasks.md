@@ -18,8 +18,9 @@
 - [x] `floor` function
 - [x] `round` function
 - [x] extract `readTwoCharacterToken`
-- [ ] support `<=` and `>=` (ints)
+- [x] support `<=` and `>=` (ints)
 - [ ] support `==` and `!=` for strings
+- [ ] `bool(anything)`
 - [ ] support `if (a && b)`, `if (a || b)`
 - [ ] `else if`
 - [ ] support block comments `/**\n * foo\n */`
@@ -35,7 +36,6 @@
 - [ ] support `++`, `--` after number - REQUIRES POSTFIX OPERATORS
 - [ ] think of an operator that should be `(a OP (b OP c))` and break out LBP/RBP
   - [ ] ++ and -- might require this also...
-- [ ] `bool(anything)`
 - [ ] dont allow assigning to the name of builtin functions
 
 # Next steps
