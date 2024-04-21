@@ -1,11 +1,15 @@
 # Enhance the interpreter
-- [ ] in addition to the repl, evaluate an entire file (`go run main.go foo.txt`)
+- [x] in addition to the repl, evaluate an entire file (`go run main.go foo.txt`)
+- [ ] `void` type, especially for some builtin functions
 - [ ] really understand how arrays work
 - [ ] support `fn foo(bar) { return "baz" }`
 - [ ] support utf-8 or unicode
 - [x] support numbers formatted like `1_000_000`
-- [ ] support other number types (float, hex, octal?)
-- [ ] support `<=` and `>=`
+- [ ] support floats
+  - [ ] look for `.`, if there's a second one throw
+- [ ] tofloat(int), toint(float..truncates), round(float), ceil(float), floor(float)
+- [ ] support `<=` and `>=` (for numbers)
+- [ ] support numbers formatted like `10e3` (just parse to int)
 - [x] support strings
 - [ ] support comments
   - [ ] `// foo`

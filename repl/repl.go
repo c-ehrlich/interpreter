@@ -12,12 +12,19 @@ import (
 
 const PROMPT = ">> "
 
-func Start(in io.Reader, out io.Writer) {
+func Start(
+	in io.Reader,
+	out io.Writer,
+	showPrompt bool,
+) {
 	scanner := bufio.NewScanner(in)
 	env := object.NewEnvironment()
 
 	for {
-		fmt.Fprintf(out, PROMPT)
+		if showPrompt {
+			fmt.Fprintf(out, PROMPT)
+		}
+
 		scanned := scanner.Scan()
 		if !scanned {
 			return
