@@ -44,6 +44,17 @@ let foo = ++1; // 2
 let bar = --foo; // 1
 ```
 
+### GTE and LTE
+```js
+2 >= 1; // true
+1.5 >= 1.5; // true
+1 >= 2; // false
+
+2 <= 1; // false
+1.5 <= 1.5; // false
+1 <= 2; // false
+```
+
 ### Comments
 ```js
 let a = 5; // foo
