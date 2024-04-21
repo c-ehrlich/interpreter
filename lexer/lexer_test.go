@@ -261,3 +261,21 @@ func TestIncrementDecrement(t *testing.T) {
 
 	testTokens(t, input, tests)
 }
+
+func TestLteGte(t *testing.T) {
+	input := `foo <= bar;
+baz >= biz;`
+
+	tests := []TokenTest{
+		{token.IDENT, "foo"},
+		{token.LTE, "<="},
+		{token.IDENT, "bar"},
+		{token.SEMICOLON, ";"},
+		{token.IDENT, "baz"},
+		{token.GTE, ">="},
+		{token.IDENT, "biz"},
+		{token.SEMICOLON, ";"},
+	}
+
+	testTokens(t, input, tests)
+}

@@ -39,5 +39,5 @@
 - [ ] dont allow assigning to the name of builtin functions
 
 # Next steps
-- [ ] the book states that parsers are usually generated instead of written. how can we generate a a monkey parser?
+- [ ] the book states that parsers are usually generated instead of written. how can we generate a monkey parser?
 - [ ] add stack traces to the error object
