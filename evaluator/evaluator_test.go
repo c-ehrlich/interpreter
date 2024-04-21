@@ -293,6 +293,14 @@ if (10 > 1) {
 			`{"name": "Monkey"}[fn(x) { x }];`,
 			"unusable as hash key: FUNCTION",
 		},
+		{
+			`++1.5`,
+			"can only increment integers, not FLOAT",
+		},
+		{
+			`--true`,
+			"can only decrement integers, not BOOLEAN",
+		},
 	}
 
 	for _, tt := range tests {
@@ -659,6 +667,23 @@ func TestEvalFloatToIntFunctions(t *testing.T) {
 	}{
 		{"toint(1.9)", 1},
 		{"toint(-1.9)", -1},
+	}
+
+	for _, tt := range tests {
+		evaluated := testEval(tt.input)
+		testIntegerObject(t, evaluated, tt.expected)
+	}
+}
+
+func TestEvalIncrementDecrementExpression(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected int64
+	}{
+		{"++5", 6},
+		{"--5", 4},
+		{"++(-5)", -4},
+		{"--(-5)", -6},
 	}
 
 	for _, tt := range tests {

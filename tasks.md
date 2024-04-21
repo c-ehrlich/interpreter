@@ -11,19 +11,18 @@
   - [x] boolean logic tests
 - [x] support strings
 - [x] support comments `// foo`, `let a = 1; // foo`
+- [x] support `++`, `--` before number
+- [ ] support `<=` and `>=` (ints and strings)
 - [ ] `void` type, especially for some builtin functions?
 - [ ] really understand how arrays work
 - [ ] support `fn foo(bar) { return "baz" }`
 - [ ] support utf-8 or unicode
 - [ ] tofloat(int), toint(float..truncates), round(float), ceil(float), floor(float)
-- [ ] support `<=` and `>=` (ints and strings)
 - [ ] support numbers formatted like `10e3` (just parse to int)
 - [ ] support more two char tokens, create `l.makeTwoCharToken` method
 - [ ] add a lot more parser tests (ref has many, try own)
 - [ ] support ternary like js
-- [ ] support `++`, `--`
-  - [ ] before number
-  - [ ] after number - REQUIRES POSTFIX OPERATORS, WHICH MONKEY DOESN'T HAVE
+- [ ] support `++`, `--` after number - REQUIRES POSTFIX OPERATORS, WHICH MONKEY DOESN'T HAVE
 - [ ] think of an operator that should be `(a OP (b OP c))` and break out LBP/RBP
   - [ ] ++ and -- might require this also...
 - [ ] support `if (a && b)`, `if (a || b)`

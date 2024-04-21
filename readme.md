@@ -35,6 +35,12 @@ round(1.5); // 2.00000
 let foo = 1_000_000; 
 ```
 
+### Increment and decrement operators
+```js
+let foo = ++1; // 2
+let bar = --foo; // 1
+```
+
 ### Comments
 ```js
 let a = 5; // foo
