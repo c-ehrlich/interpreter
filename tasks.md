@@ -25,7 +25,7 @@
 - [x] escape `\"` in strings
 - [x] support `==` and `!=` for strings
 - [x] while loop!
-- [ ] modulo
+- [x] modulo
 - [ ] `j = i;`
 - [ ] `else if`
 - [ ] support `10e3` notation (just parse to int)

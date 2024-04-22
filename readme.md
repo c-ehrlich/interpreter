@@ -1,11 +1,47 @@
 # Interpreter
 
+## Example
+
+### 1. Write a program
+```js
+// program.monkey
+let fizz = fn(x){
+    if (x % 15 == 0) { return "fizzbuzz"; }
+    if (x % 3 == 0) { return "fizz"; }
+    if (x % 5 == 0) { return "buzz"; }
+    return x;
+};
+
+let i = 1;
+
+while (i <= 100) {
+    puts(fizz(i))
+    ++i;
+}
+```
+
+### 2. Run the program
+
+`go run main.go program.monkey`
+
+### 3. Be amazed
+
+```
+1
+2
+fizz
+4
+buzz
+// etc...
+```
+
 ## Development
 
 1. Install gow `go install github.com/mitranim/gow@latest`
 2. Run tests in watch mode `gow test ./...`
 3. To start the repl: `go run main.go`
 4. To pass a file: `go run main.go program.monkey`
+
 
 ## Additional Features
 
@@ -42,6 +78,11 @@ let foo = 1_000_000;
 ```js
 let foo = ++1; // 2
 let bar = --foo; // 1
+```
+
+### Modulo
+```js
+3 % 2; // 1
 ```
 
 ### GTE and LTE

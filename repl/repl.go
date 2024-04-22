@@ -16,6 +16,7 @@ func Start(
 	in io.Reader,
 	out io.Writer,
 	showPrompt bool,
+	replMode bool,
 ) {
 	scanner := bufio.NewScanner(in)
 	env := object.NewEnvironment()
@@ -41,7 +42,7 @@ func Start(
 		}
 
 		evaluated := evaluator.Eval(program, env)
-		if evaluated != nil {
+		if replMode && evaluated != nil {
 			io.WriteString(out, evaluated.Inspect())
 			io.WriteString(out, "\n")
 		}
