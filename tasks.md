@@ -22,6 +22,7 @@
 - [x] `bool(anything)`
 - [x] support `if (a && b)`, `if (a || b)`
 - [x] support block comments `/**\n * foo\n */`
+- [x] escape `\"` in strings
 - [ ] support `==` and `!=` for strings
 - [ ] `else if`
 - [ ] loops!

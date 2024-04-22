@@ -192,9 +192,7 @@ func (l *Lexer) skipComment() {
 }
 
 func (l *Lexer) skipMultilineComment() {
-	println("skipping multiline comment")
 	for l.ch != '*' || l.peekChar() != '/' {
-		println("l.ch: ", string(l.ch), " l.peekChar(): ", string(l.peekChar()))
 		l.readChar()
 	}
 	l.readChar()
@@ -211,14 +209,29 @@ func (l *Lexer) peekChar() byte {
 }
 
 func (l *Lexer) readString() string {
-	position := l.position + 1
+	str := ""
+	l.readChar() // skip initial `"`
+
 	for {
+		// handle escaped quotes
+		if l.ch == '\\' && l.peekChar() == '"' {
+			str += "\""
+			l.readChar()
+			l.readChar()
+			continue
+		}
+
+		// handle regular characters
+		str += string(l.ch)
 		l.readChar()
+
+		// handle end of string
 		if l.ch == '"' || l.ch == 0 {
 			break
 		}
 	}
-	return l.input[position:l.position]
+
+	return str
 }
 
 func newToken(tokenType token.TokenType, ch byte) token.Token {

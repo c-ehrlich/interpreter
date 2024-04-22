@@ -79,6 +79,11 @@ false || false; // true
 if (true && false) { "true" } else { "false" }; // "false"
 ```
 
+### Escape quotes in strings
+```js
+"foo\"bar"; // behind the scenes: `foo\"bar`, prints as `foo"bar`
+```
+
 ### Single Line Comments
 ```js
 let a = 5; // foo
