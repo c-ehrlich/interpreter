@@ -19,6 +19,7 @@ const (
 	_ int = iota
 	LOWEST
 	EQUALS      // == or !=
+	LOGIC       // && or || TODO: is this the right position?
 	LESSGREATER // > or <
 	SUM         // + or -
 	PRODUCT     // * or /
@@ -30,6 +31,8 @@ const (
 var precedences = map[token.TokenType]int{
 	token.EQ:       EQUALS,
 	token.NOT_EQ:   EQUALS,
+	token.AND:      LOGIC,
+	token.OR:       LOGIC,
 	token.LT:       LESSGREATER,
 	token.GT:       LESSGREATER,
 	token.LTE:      LESSGREATER,
@@ -93,6 +96,8 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerInfix(token.GT, p.parseInfixExpression)
 	p.registerInfix(token.LTE, p.parseInfixExpression)
 	p.registerInfix(token.GTE, p.parseInfixExpression)
+	p.registerInfix(token.AND, p.parseInfixExpression)
+	p.registerInfix(token.OR, p.parseInfixExpression)
 	p.registerInfix(token.LPAREN, p.parseCallExpression)    // this is how we parse function calls
 	p.registerInfix(token.LBRACKET, p.parseIndexExpression) // this is how we parse array indexing
 
@@ -231,6 +236,7 @@ func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 // => RIGHT BINDING POWER
 func (p *Parser) parseExpression(precedence int) ast.Expression {
 	// defer untrace(trace("parsePrefixExpression" + " " + p.curToken.Literal))
+	println("parseExpression", p.curToken.Literal)
 	prefix := p.prefixParseFns[p.curToken.Type]
 	if prefix == nil {
 		p.noPrefixParseFnError(p.curToken.Type)
