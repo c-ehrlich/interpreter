@@ -53,11 +53,7 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 		return nativeBoolToBooleanObject(node.Value)
 
 	case *ast.PrefixExpression:
-		right := Eval(node.Right, env)
-		if isError(right) {
-			return right
-		}
-		return evalPrefixExpression(node.Operator, right)
+		return evalPrefixExpression(node.Operator, node.Right, env)
 
 	case *ast.InfixExpression:
 		left := Eval(node.Left, env)
@@ -75,6 +71,9 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 
 	case *ast.IfExpression:
 		return evalIfExpression(node, env)
+
+	case *ast.WhileExpression:
+		return evalWhileExpression(node, env)
 
 	case *ast.ReturnStatement:
 		val := Eval(node.ReturnValue, env)
@@ -144,16 +143,25 @@ func nativeBoolToBooleanObject(input bool) *object.Boolean {
 	return FALSE
 }
 
-func evalPrefixExpression(operator string, right object.Object) object.Object {
+func evalPrefixExpression(
+	operator string,
+	rightExpression ast.Expression,
+	env *object.Environment,
+) object.Object {
+	right := Eval(rightExpression, env)
+	if isError(right) {
+		return right
+	}
+
 	switch operator {
 	case "!":
 		return evalBangOperatorExpression(right)
 	case "-":
 		return evalMinusPrefixOperatorExpression(right)
 	case "++":
-		return evalIncrementPrefixOperatorExpression(right)
+		return evalIncrementPrefixOperatorExpression(rightExpression, env)
 	case "--":
-		return evalDecrementPrefixOperatorExpression(right)
+		return evalDecrementPrefixOperatorExpression(rightExpression, env)
 	default:
 		return newError("unknown operator: %s%s", operator, right.Type())
 	}
@@ -189,23 +197,53 @@ func evalMinusPrefixOperatorExpression(right object.Object) object.Object {
 	}
 }
 
-func evalIncrementPrefixOperatorExpression(right object.Object) object.Object {
+func evalIncrementPrefixOperatorExpression(
+	rightExpression ast.Expression,
+	env *object.Environment,
+) object.Object {
+	right := Eval(rightExpression, env)
+	if isError(right) {
+		return right
+	}
+
 	if right.Type() != object.INTEGER_OBJ {
 		return newError("can only increment integers, not %s", right.Type())
 	}
 
-	value := right.(*object.Integer).Value
+	int := right.(*object.Integer)
+	value := int.Value
 	incremented := value + 1
+
+	ident, ok := rightExpression.(*ast.Identifier)
+	if ok {
+		env.Set(ident.Value, &object.Integer{Value: incremented})
+	}
+
 	return &object.Integer{Value: incremented}
 }
 
-func evalDecrementPrefixOperatorExpression(right object.Object) object.Object {
+func evalDecrementPrefixOperatorExpression(
+	rightExpression ast.Expression,
+	env *object.Environment,
+) object.Object {
+	right := Eval(rightExpression, env)
+	if isError(right) {
+		return right
+	}
+
 	if right.Type() != object.INTEGER_OBJ {
 		return newError("can only decrement integers, not %s", right.Type())
 	}
 
-	value := right.(*object.Integer).Value
+	int := right.(*object.Integer)
+	value := int.Value
 	decremented := value - 1
+
+	ident, ok := rightExpression.(*ast.Identifier)
+	if ok {
+		env.Set(ident.Value, &object.Integer{Value: decremented})
+	}
+
 	return &object.Integer{Value: decremented}
 }
 
@@ -377,6 +415,35 @@ func evalIfExpression(ie *ast.IfExpression, env *object.Environment) object.Obje
 	} else {
 		return NULL
 	}
+}
+
+func evalWhileExpression(we *ast.WhileExpression, env *object.Environment) object.Object {
+	var returnValue object.Object
+
+	for {
+		condition := Eval(we.Condition, env)
+		if isError(condition) {
+			return condition
+		}
+
+		if !isTruthy(condition) {
+			break
+		}
+
+		returnValue = evalBlockStatement(we.Body, env)
+		if isError(returnValue) {
+			return returnValue
+		}
+
+		if returnValue != nil {
+			rt := returnValue.Type()
+			if rt == object.RETURN_VALUE_OBJ || rt == object.ERROR_OBJ {
+				break
+			}
+		}
+	}
+
+	return returnValue
 }
 
 // TODO: empty strings are falsy, 0 is falsy, etc

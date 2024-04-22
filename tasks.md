@@ -23,9 +23,11 @@
 - [x] support `if (a && b)`, `if (a || b)`
 - [x] support block comments `/**\n * foo\n */`
 - [x] escape `\"` in strings
-- [ ] support `==` and `!=` for strings
+- [x] support `==` and `!=` for strings
+- [x] while loop!
+- [ ] modulo
+- [ ] `j = i;`
 - [ ] `else if`
-- [ ] loops!
 - [ ] support `10e3` notation (just parse to int)
 - [ ] add map, reduce, foreach... php style `map(arr, fn)`
 - [ ] make `bool(0)` evaluate to false
