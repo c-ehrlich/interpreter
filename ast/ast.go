@@ -202,6 +202,23 @@ func (ie *IfExpression) String() string {
 	return out.String()
 }
 
+type WhileExpression struct {
+	Token     token.Token // The `for` token
+	Condition Expression
+	Body      *BlockStatement
+}
+
+func (we *WhileExpression) expressionNode()      {}
+func (we *WhileExpression) TokenLiteral() string { return we.Token.Literal }
+func (we *WhileExpression) String() string {
+	var out bytes.Buffer
+	out.WriteString("for")
+	out.WriteString(we.Condition.String())
+	out.WriteString(" ")
+	out.WriteString(we.Body.String())
+	return out.String()
+}
+
 type BlockStatement struct {
 	Token      token.Token // the `{` token
 	Statements []Statement

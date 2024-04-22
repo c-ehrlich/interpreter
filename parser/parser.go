@@ -82,6 +82,7 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerPrefix(token.LBRACKET, p.parseArrayLiteral)
 	p.registerPrefix(token.LBRACE, p.parseHashLiteral)
 	p.registerPrefix(token.IF, p.parseIfExpression)
+	p.registerPrefix(token.WHILE, p.parseWhileExpression)
 	p.registerPrefix(token.FUNCTION, p.parseFunctionLiteral)
 	p.registerPrefix(token.STRING, p.parseStringLiteral)
 
@@ -218,7 +219,7 @@ func (p *Parser) parseReturnStatement() *ast.ReturnStatement {
 }
 
 func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
-	// defer untrace(trace("parsePrefixExpression" + " " + p.curToken.Literal))
+	defer untrace(trace("parseExpressionStatement" + " " + p.curToken.Literal))
 
 	stmt := &ast.ExpressionStatement{Token: p.curToken}
 
@@ -235,7 +236,7 @@ func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 // `precedence` is the precedence of the token that precedes the expression
 // => RIGHT BINDING POWER
 func (p *Parser) parseExpression(precedence int) ast.Expression {
-	// defer untrace(trace("parsePrefixExpression" + " " + p.curToken.Literal))
+	defer untrace(trace("parsePrefixExpression" + " " + p.curToken.Literal))
 	prefix := p.prefixParseFns[p.curToken.Type]
 	if prefix == nil {
 		p.noPrefixParseFnError(p.curToken.Type)
@@ -294,7 +295,7 @@ func (p *Parser) parseFloatLiteral() ast.Expression {
 }
 
 func (p *Parser) parsePrefixExpression() ast.Expression {
-	// defer untrace(trace("parsePrefixExpression" + " " + p.curToken.Literal))
+	defer untrace(trace("parsePrefixExpression" + " " + p.curToken.Literal))
 
 	expression := &ast.PrefixExpression{
 		Token:    p.curToken,
@@ -310,7 +311,7 @@ func (p *Parser) parsePrefixExpression() ast.Expression {
 }
 
 func (p *Parser) parseInfixExpression(left ast.Expression) ast.Expression {
-	// defer untrace(trace("parsePrefixExpression" + " " + p.curToken.Literal))
+	defer untrace(trace("parseInfixExpression" + " " + p.curToken.Literal))
 
 	expression := &ast.InfixExpression{
 		Token:    p.curToken,
@@ -375,6 +376,29 @@ func (p *Parser) parseIfExpression() ast.Expression {
 
 		expression.Alternative = p.parseBlockStatement()
 	}
+
+	return expression
+}
+
+func (p *Parser) parseWhileExpression() ast.Expression {
+	expression := &ast.WhileExpression{Token: p.curToken}
+
+	if !p.expectPeek(token.LPAREN) {
+		return nil
+	}
+
+	p.nextToken()
+	expression.Condition = p.parseExpression(LOWEST)
+
+	if !p.expectPeek(token.RPAREN) {
+		return nil
+	}
+
+	if !p.expectPeek(token.LBRACE) {
+		return nil
+	}
+
+	expression.Body = p.parseBlockStatement()
 
 	return expression
 }

@@ -1069,3 +1069,42 @@ func TestParsingHashLiteralsWithExpressions(t *testing.T) {
 		testFunc(value)
 	}
 }
+
+func TestWhileLoop(t *testing.T) {
+	input := `while (i < 10) {
+  puts(i);
+  ++i;
+}`
+
+	l := lexer.New(input)
+	p := New(l)
+	program := p.ParseProgram()
+	checkParserErrors(t, p)
+
+	if len(program.Statements) != 1 {
+		t.Fatalf("program.Statements does not contain %d statements. got=%d\n",
+			1, len(program.Statements))
+	}
+
+	stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
+	if !ok {
+		t.Fatalf("program.Statements[0] is not ast.ExpressionStatement. got=%T",
+			program.Statements[0])
+	}
+
+	exp, ok := stmt.Expression.(*ast.WhileExpression)
+	if !ok {
+		t.Fatalf("stmt is not ast.WhileExpression. got=%T",
+			stmt.Expression)
+	}
+
+	if exp.Condition.String() != "(i < 10)" {
+		t.Errorf("exp.Condition is not 'i < 10'. got=%q",
+			exp.Condition.String())
+	}
+
+	if len(exp.Body.Statements) != 2 {
+		t.Errorf("body is not 2 statement. got=%d\n",
+			len(exp.Body.Statements))
+	}
+}
