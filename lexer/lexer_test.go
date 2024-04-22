@@ -322,3 +322,38 @@ func TestAndOr(t *testing.T) {
 
 	testTokens(t, input, tests)
 }
+
+func TestForLoop(t *testing.T) {
+	input := `for (let i = 0; i < 10; ++i) { if (i == 5) { i } }`
+
+	tests := []TokenTest{
+		{token.FOR, "for"},
+		{token.LPAREN, "("},
+		{token.LET, "let"},
+		{token.IDENT, "i"},
+		{token.ASSIGN, "="},
+		{token.INT, "0"},
+		{token.SEMICOLON, ";"},
+		{token.IDENT, "i"},
+		{token.LT, "<"},
+		{token.INT, "10"},
+		{token.SEMICOLON, ";"},
+		{token.INCREMENT, "++"},
+		{token.IDENT, "i"},
+		{token.RPAREN, ")"},
+		{token.LBRACE, "{"},
+		{token.IF, "if"},
+		{token.LPAREN, "("},
+		{token.IDENT, "i"},
+		{token.EQ, "=="},
+		{token.INT, "5"},
+		{token.RPAREN, ")"},
+		{token.LBRACE, "{"},
+		{token.IDENT, "i"},
+		{token.RBRACE, "}"},
+		{token.RBRACE, "}"},
+		{token.EOF, ""},
+	}
+
+	testTokens(t, input, tests)
+}
