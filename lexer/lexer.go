@@ -87,6 +87,18 @@ func (l *Lexer) NextToken() token.Token {
 		} else {
 			tok = newToken(token.GT, l.ch)
 		}
+	case '&':
+		if l.peekChar() == '&' {
+			tok = readTwoCharacterToken(l, token.AND)
+		} else {
+			tok = newToken(token.ILLEGAL, l.ch)
+		}
+	case '|':
+		if l.peekChar() == '|' {
+			tok = readTwoCharacterToken(l, token.OR)
+		} else {
+			tok = newToken(token.ILLEGAL, l.ch)
+		}
 	// delimiters
 	case ',':
 		tok = newToken(token.COMMA, l.ch)

@@ -39,6 +39,9 @@ const (
 	LTE    = "<="
 	GTE    = ">="
 
+	AND = "&&"
+	OR  = "||"
+
 	// Delimiters
 	COMMA     = ","
 	SEMICOLON = ";"

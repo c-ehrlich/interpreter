@@ -279,3 +279,24 @@ baz >= biz;`
 
 	testTokens(t, input, tests)
 }
+
+func TestAndOr(t *testing.T) {
+	input := `(foo && bar) || (baz || biz);`
+
+	tests := []TokenTest{
+		{token.LPAREN, "("},
+		{token.IDENT, "foo"},
+		{token.AND, "&&"},
+		{token.IDENT, "bar"},
+		{token.RPAREN, ")"},
+		{token.OR, "||"},
+		{token.LPAREN, "("},
+		{token.IDENT, "baz"},
+		{token.OR, "||"},
+		{token.IDENT, "biz"},
+		{token.RPAREN, ")"},
+		{token.SEMICOLON, ";"},
+	}
+
+	testTokens(t, input, tests)
+}
