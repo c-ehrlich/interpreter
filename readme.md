@@ -79,6 +79,16 @@ false || false; // true
 if (true && false) { "true" } else { "false" }; // "false"
 ```
 
+### Loops
+```js
+let i;
+while (i < 10) {
+    if (i == 5) {
+        return i;
+    }
+}
+```
+
 ### Escape quotes in strings
 ```js
 "foo\"bar"; // behind the scenes: `foo\"bar`, prints as `foo"bar`

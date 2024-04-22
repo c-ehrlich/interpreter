@@ -34,7 +34,7 @@ func testTokens(
 }
 
 func TestNextTokenSingleChars(t *testing.T) {
-	input := `=+(){},;`
+	input := `=+(){},;%`
 
 	tests := []TokenTest{
 		{token.ASSIGN, "="},
@@ -45,6 +45,7 @@ func TestNextTokenSingleChars(t *testing.T) {
 		{token.RBRACE, "}"},
 		{token.COMMA, ","},
 		{token.SEMICOLON, ";"},
+		{token.MODULO, "%"},
 		{token.EOF, ""},
 	}
 

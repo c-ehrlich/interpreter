@@ -28,6 +28,7 @@ const (
 	BANG     = "!"
 	ASTERISK = "*"
 	SLASH    = "/"
+	MODULO   = "%"
 
 	INCREMENT = "++"
 	DECREMENT = "--"

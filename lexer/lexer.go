@@ -78,6 +78,8 @@ func (l *Lexer) NextToken() token.Token {
 		} else {
 			tok = newToken(token.SLASH, l.ch)
 		}
+	case '%':
+		tok = newToken(token.MODULO, l.ch)
 	case '<':
 		if l.peekChar() == '=' {
 			tok = readTwoCharacterToken(l, token.LTE)
@@ -231,8 +233,6 @@ func (l *Lexer) readString() string {
 		str += string(l.ch)
 		l.readChar()
 	}
-
-	println("parsed str", str)
 
 	return str
 }
