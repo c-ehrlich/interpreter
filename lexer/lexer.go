@@ -213,6 +213,12 @@ func (l *Lexer) readString() string {
 	l.readChar() // skip initial `"`
 
 	for {
+		// handle end of string
+		if l.ch == '"' || l.ch == 0 {
+			// l.readChar() // skip final `"`
+			break
+		}
+
 		// handle escaped quotes
 		if l.ch == '\\' && l.peekChar() == '"' {
 			str += "\""
@@ -224,12 +230,9 @@ func (l *Lexer) readString() string {
 		// handle regular characters
 		str += string(l.ch)
 		l.readChar()
-
-		// handle end of string
-		if l.ch == '"' || l.ch == 0 {
-			break
-		}
 	}
+
+	println("parsed str", str)
 
 	return str
 }

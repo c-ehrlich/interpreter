@@ -150,12 +150,14 @@ func TestNextTokenTwoCharTokens(t *testing.T) {
 func TestNextTokenStrings(t *testing.T) {
 	input := `"foobar"
 "foo bar"
-"foo\"bar"`
+"foo\"bar"
+""`
 
 	tests := []TokenTest{
 		{token.STRING, "foobar"},
 		{token.STRING, "foo bar"},
 		{token.STRING, `foo"bar`},
+		{token.STRING, ""},
 		{token.EOF, ""},
 	}
 
