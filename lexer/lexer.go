@@ -72,6 +72,9 @@ func (l *Lexer) NextToken() token.Token {
 		if l.peekChar() == '/' {
 			l.skipComment()
 			return l.NextToken()
+		} else if l.peekChar() == '*' {
+			l.skipMultilineComment()
+			return l.NextToken()
 		} else {
 			tok = newToken(token.SLASH, l.ch)
 		}
@@ -185,6 +188,17 @@ func (l *Lexer) skipComment() {
 	for l.ch != '\n' && l.ch != 0 {
 		l.readChar()
 	}
+	l.skipWhitespace()
+}
+
+func (l *Lexer) skipMultilineComment() {
+	println("skipping multiline comment")
+	for l.ch != '*' || l.peekChar() != '/' {
+		println("l.ch: ", string(l.ch), " l.peekChar(): ", string(l.peekChar()))
+		l.readChar()
+	}
+	l.readChar()
+	l.readChar()
 	l.skipWhitespace()
 }
 

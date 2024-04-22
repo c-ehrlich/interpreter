@@ -19,11 +19,11 @@
 - [x] `round` function
 - [x] extract `readTwoCharacterToken`
 - [x] support `<=` and `>=` (ints)
-- [ ] support `==` and `!=` for strings
 - [x] `bool(anything)`
 - [x] support `if (a && b)`, `if (a || b)`
+- [x] support block comments `/**\n * foo\n */`
+- [ ] support `==` and `!=` for strings
 - [ ] `else if`
-- [ ] support block comments `/**\n * foo\n */`
 - [ ] loops!
 - [ ] support `10e3` notation (just parse to int)
 - [ ] add map, reduce, foreach... php style `map(arr, fn)`

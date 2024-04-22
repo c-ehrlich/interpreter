@@ -105,14 +105,14 @@ let result = add(five, ten);
 }
 
 func TestNextTokenMoreTokens(t *testing.T) {
-	input := `!-/*5;
+	input := `!-*/5;
 5 < 10 > 5;`
 
 	tests := []TokenTest{
 		{token.BANG, "!"},
 		{token.MINUS, "-"},
-		{token.SLASH, "/"},
 		{token.ASTERISK, "*"},
+		{token.SLASH, "/"},
 		{token.INT, "5"},
 		{token.SEMICOLON, ";"},
 		{token.INT, "5"},
@@ -215,6 +215,26 @@ func TestSingleLineComment(t *testing.T) {
 		{token.INT, "4"},
 		{token.SEMICOLON, ";"},
 		{token.INT, "3"},
+		{token.SEMICOLON, ";"},
+	}
+
+	testTokens(t, input, tests)
+}
+
+func TestMultiLineComment(t *testing.T) {
+	input := `5; /* foo
+ * bar
+ */ 4;
+3; /* baz */ 2;`
+
+	tests := []TokenTest{
+		{token.INT, "5"},
+		{token.SEMICOLON, ";"},
+		{token.INT, "4"},
+		{token.SEMICOLON, ";"},
+		{token.INT, "3"},
+		{token.SEMICOLON, ";"},
+		{token.INT, "2"},
 		{token.SEMICOLON, ";"},
 	}
 

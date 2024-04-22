@@ -79,9 +79,17 @@ false || false; // true
 if (true && false) { "true" } else { "false" }; // "false"
 ```
 
-### Comments
+### Single Line Comments
 ```js
 let a = 5; // foo
 // bar
 let b = 10;
+```
+
+### Multi Line Comments
+```js
+/**
+ * foo
+ */ let c = 15;
+let d = 20; /* bar */ let e = 25
 ```
