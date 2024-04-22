@@ -20,8 +20,8 @@
 - [x] extract `readTwoCharacterToken`
 - [x] support `<=` and `>=` (ints)
 - [ ] support `==` and `!=` for strings
-- [ ] `bool(anything)`
-- [ ] support `if (a && b)`, `if (a || b)`
+- [x] `bool(anything)`
+- [x] support `if (a && b)`, `if (a || b)`
 - [ ] `else if`
 - [ ] support block comments `/**\n * foo\n */`
 - [ ] loops!

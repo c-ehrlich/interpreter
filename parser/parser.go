@@ -236,7 +236,6 @@ func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 // => RIGHT BINDING POWER
 func (p *Parser) parseExpression(precedence int) ast.Expression {
 	// defer untrace(trace("parsePrefixExpression" + " " + p.curToken.Literal))
-	println("parseExpression", p.curToken.Literal)
 	prefix := p.prefixParseFns[p.curToken.Type]
 	if prefix == nil {
 		p.noPrefixParseFnError(p.curToken.Type)

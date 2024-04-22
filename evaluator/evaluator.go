@@ -214,6 +214,8 @@ func evalInfixExpression(
 	left, right object.Object,
 ) object.Object {
 	switch {
+	case operator == "&&" || operator == "||":
+		return evalLogicalInfixExpression(operator, left, right)
 	case left.Type() != right.Type():
 		return newError("type mismatch: %s %s %s",
 			left.Type(), operator, right.Type())
@@ -320,7 +322,46 @@ func evalStringInfixExpression(
 		return newError("unknown operator: %s %s %s",
 			left.Type(), operator, right.Type())
 	}
+}
 
+func evalLogicalInfixExpression(
+	operator string,
+	left, right object.Object,
+) object.Object {
+	leftBool := castToBoolean(left).(*object.Boolean)
+	rightBool := castToBoolean(right).(*object.Boolean)
+
+	switch operator {
+	case "&&":
+		value := leftBool.Value && rightBool.Value
+		return nativeBoolToBooleanObject(value)
+	case "||":
+		value := leftBool.Value || rightBool.Value
+		return nativeBoolToBooleanObject(value)
+	default:
+		return newError("unknown operator: %s %s %s",
+			left.Type(), operator, right.Type())
+	}
+
+}
+
+func castToBoolean(obj object.Object) object.Object {
+	switch obj.Type() {
+	case object.BOOLEAN_OBJ:
+		value := obj.(*object.Boolean).Value
+		return &object.Boolean{Value: value}
+	case object.INTEGER_OBJ:
+		value := obj.(*object.Integer).Value != 0
+		return &object.Boolean{Value: value}
+	case object.FLOAT_OBJ:
+		value := obj.(*object.Float).Value != 0.0
+		return &object.Boolean{Value: value}
+	case object.STRING_OBJ:
+		value := obj.(*object.String).Value != ""
+		return &object.Boolean{Value: value}
+	default:
+		return newError("Can't cast to boolean: %s", obj.Type())
+	}
 }
 
 func evalIfExpression(ie *ast.IfExpression, env *object.Environment) object.Object {

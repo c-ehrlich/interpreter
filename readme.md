@@ -61,6 +61,23 @@ let bar = --foo; // 1
 "apples" == "oranges"; // false
 "apples" != "apples"; // false
 "apples" != "oranges"; // true
+```
+
+### Logical operators
+```js
+true && true; // true
+true && false; // false
+true || false; // true
+false || false; // true
+// they can compare booleans, integers, floats, strings,
+// and any expression that evaluates to one of these types
+1 && 2; // true
+1 && 0; // false
+1.5 && 0.0; // false
+"foo" && ""; // false
+0 || "foo"; // true
+if (true && false) { "true" } else { "false" }; // "false"
+```
 
 ### Comments
 ```js

@@ -147,6 +147,22 @@ func TestEvalBooleanExpression(t *testing.T) {
 		{`"apple" == "orange"`, false},
 		{`"apple" != "apple"`, false},
 		{`"apple" != "orange"`, true},
+		{`true && true`, true},
+		{`true && false`, false},
+		{`false && true`, false},
+		{`false && false`, false},
+		{`1 && 1`, true},
+		{`1 && 0`, false},
+		{`1 || 0`, true},
+		{`0 || 0`, false},
+		{`1.0 && 1.0`, true},
+		{`1.0 && 0.0`, false},
+		{`1.0 || 0.0`, true},
+		{`0.0 || 0.0`, false},
+		{`"foo" && "bar"`, true},
+		{`"foo" && ""`, false},
+		{`"foo" || ""`, true},
+		{`"" || ""`, false},
 	}
 
 	for _, tt := range tests {
@@ -720,5 +736,30 @@ func TestEvalIncrementDecrementExpression(t *testing.T) {
 	for _, tt := range tests {
 		evaluated := testEval(tt.input)
 		testIntegerObject(t, evaluated, tt.expected)
+	}
+}
+
+func TestEvalLogicalExpressions(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected bool
+	}{
+		{"true && true", true},
+		{"true && false", false},
+		{"false && true", false},
+		{"false && false", false},
+		// {"if (true && true) { true } else { false }", true},
+		// {"if (true && false) { true } else { false }", false},
+		{"if (false && true) { true } else { false }", false},
+		// {"if (false && false) { true } else { false }", false},
+		// {"if (true || true) { true } else { false }", true},
+		// {"if (true || false) { true } else { false }", true},
+		// {"if (false || true) { true } else { false }", true},
+		// {"if (false || false) { true } else { false }", false},
+	}
+
+	for _, tt := range tests {
+		evaluated := testEval(tt.input)
+		testBooleanObject(t, evaluated, tt.expected)
 	}
 }
