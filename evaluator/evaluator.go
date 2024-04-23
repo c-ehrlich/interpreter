@@ -73,7 +73,8 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 		return evalIfExpression(node, env)
 
 	case *ast.WhileExpression:
-		return evalWhileExpression(node, env)
+		innerEnv := object.NewEnclosedEnvironment(env)
+		return evalWhileExpression(node, innerEnv)
 
 	case *ast.ReturnStatement:
 		val := Eval(node.ReturnValue, env)

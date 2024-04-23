@@ -26,8 +26,10 @@
 - [x] support `==` and `!=` for strings
 - [x] while loop!
 - [x] modulo
-- [ ] `j = i;`
+- [x] correctly handle lexical environment in while loop
+- [ ] `let i = 0; i = 1;`
 - [ ] `else if`
+- [ ] treesitter https://github.com/jamestrew/tree-sitter-monkey
 - [ ] support `10e3` notation (just parse to int)
 - [ ] add map, reduce, foreach... php style `map(arr, fn)`
 - [ ] make `bool(0)` evaluate to false

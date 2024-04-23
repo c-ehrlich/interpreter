@@ -122,12 +122,23 @@ if (true && false) { "true" } else { "false" }; // "false"
 
 ### Loops
 ```js
-let i;
+let i = 0;
 while (i < 10) {
     if (i == 5) {
         return i;
     }
 }
+```
+
+#### And they treat lexical scope correctly!
+```js
+let i = 0;
+let j = 0;
+while (i < 10) {
+    let j = 5;
+    ++i;
+}
+puts(j); // 0
 ```
 
 ### Escape quotes in strings
