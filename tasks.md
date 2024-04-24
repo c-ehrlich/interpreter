@@ -27,6 +27,10 @@
 - [x] while loop!
 - [x] modulo
 - [x] correctly handle lexical environment in while loop
+- [ ] standardize how prefix expressions are handled
+  - [ ] pass the whole node, grab the value downstream
+  - [ ] figure out if/how this impacts error handling
+  - [ ] should be as close to the elegance of the previous system as possible
 - [ ] `let i = 0; i = 1;`
 - [ ] `else if`
 - [ ] treesitter https://github.com/jamestrew/tree-sitter-monkey
